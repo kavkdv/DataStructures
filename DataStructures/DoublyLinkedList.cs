@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class LinkedList<T> : ICollection<T>
+    public class DoublyLinkedList<T> : IEnumerable<T>, ICollection<T>
     {
-        public Node<T> Head { get; private set; }
-
-        public Node<T> Tail { get; private set; }
-
         public int Count { get; private set; }
+
+        public DoublyNode<T> Head { get; private set; }
+
+        public DoublyNode<T> Tail { get; private set; }
 
         public bool IsReadOnly => false;
 
         public void AddFirst(T item)
         {
-            AddFirst(new Node<T> { Value = item });
+            AddFirst(new DoublyNode<T> { Value = item });
         }
 
-        public void AddFirst(Node<T> node)
+        public void AddFirst(DoublyNode<T> node)
         {
             var temp = Head;
 
@@ -28,21 +28,27 @@ namespace DataStructures
 
             Count++;
 
-            if(Count == 0)
+            if (Count == 0)
             {
                 Tail = Head;
             }
+            else
+            {
+                temp.Prev = Head;
+            }
         }
 
-        public void AddLast(Node<T> node)
+        public void AddLast(DoublyNode<T> node)
         {
-            if(Count == 0)
+            if (Count == 0)
             {
                 Head = node;
             }
             else
             {
                 Tail.Next = node;
+
+                node.Prev = Tail;
             }
 
             Tail = node;
@@ -52,24 +58,17 @@ namespace DataStructures
 
         public void RemoveLast()
         {
-            if(Count != 0)
+            if (Count != 0)
             {
-                if(Count == 1)
+                if (Count == 1)
                 {
                     Head = null;
                     Tail = null;
                 }
                 else
                 {
-                    var current = Head;
-
-                    while(current.Next != Tail)
-                    {
-                        current = current.Next;
-                    }
-
-                    current.Next = null;
-                    Tail = current;
+                    Tail.Prev.Next = null;
+                    Tail = Tail.Prev;
                 }
 
                 Count--;
@@ -78,33 +77,20 @@ namespace DataStructures
 
         public void RemoveFirst()
         {
-            if(Count != 0)
+            if (Count != 0)
             {
                 Head = Head.Next;
                 Count--;
 
-                if(Count == 0)
+                if (Count == 0)
                 {
                     Tail = null;
                 }
+                else
+                {
+                    Head.Prev = null;
+                }
             }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            var current = Head;
-
-            while(current != null)
-            {
-                yield return current.Value;
-
-                current = current.Next;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)this).GetEnumerator();
         }
 
         public void Add(T item)
@@ -125,7 +111,7 @@ namespace DataStructures
 
             while (current != null)
             {
-                if(current.Value.Equals(item))
+                if (current.Value.Equals(item))
                 {
                     return true;
                 }
@@ -140,7 +126,7 @@ namespace DataStructures
         {
             var current = Head;
 
-            while(current != null)
+            while (current != null)
             {
                 array[arrayIndex++] = current.Value;
 
@@ -150,20 +136,24 @@ namespace DataStructures
 
         public bool Remove(T item)
         {
-            Node<T> prev = null;
-            Node<T> current = Head;
+            DoublyNode<T> prev = null;
+            DoublyNode<T> current = Head;
 
-            while(current != null)
+            while (current != null)
             {
-                if(current.Value.Equals(item))
+                if (current.Value.Equals(item))
                 {
-                    if(prev != null)
+                    if (prev != null)
                     {
                         prev.Next = current.Next;
 
-                        if(current.Next == null)
+                        if (current.Next == null)
                         {
                             Tail = prev;
+                        }
+                        else
+                        {
+                            current.Next.Prev = prev;
                         }
 
                         Count--;
@@ -181,6 +171,23 @@ namespace DataStructures
             }
 
             return false;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<T>)this).GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            var current = Head;
+
+            while (current != null)
+            {
+                yield return current.Value;
+
+                current = current.Next;
+            }
         }
     }
 }
