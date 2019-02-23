@@ -28,7 +28,7 @@ namespace DataStructures
 
             Count++;
 
-            if (Count == 0)
+            if (Count == 1)
             {
                 Tail = Head;
             }
@@ -36,6 +36,11 @@ namespace DataStructures
             {
                 temp.Prev = Head;
             }
+        }
+
+        public void AddLast(T item)
+        {
+            AddFirst(new DoublyNode<T> { Value = item });
         }
 
         public void AddLast(DoublyNode<T> node)

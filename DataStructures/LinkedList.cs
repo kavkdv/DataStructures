@@ -28,7 +28,7 @@ namespace DataStructures
 
             Count++;
 
-            if(Count == 0)
+            if(Count == 1)
             {
                 Tail = Head;
             }
