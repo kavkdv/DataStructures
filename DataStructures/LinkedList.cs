@@ -104,7 +104,7 @@ namespace DataStructures
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<T>)this).GetEnumerator();
+            return GetEnumerator();
         }
 
         public void Add(T item)
