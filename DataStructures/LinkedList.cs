@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
-    public class LinkedList<T> : ICollection<T>
+    public class LinkedList<T> : ICollection<T>, IEnumerable<T>
     {
         public Node<T> Head { get; private set; }
 

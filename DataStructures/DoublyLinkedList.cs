@@ -40,7 +40,7 @@ namespace DataStructures
 
         public void AddLast(T item)
         {
-            AddFirst(new DoublyNode<T> { Value = item });
+            AddLast(new DoublyNode<T> { Value = item });
         }
 
         public void AddLast(DoublyNode<T> node)
