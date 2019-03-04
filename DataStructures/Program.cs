@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStructures.Sorting;
+using System;
 
 namespace DataStructures
 {
@@ -6,18 +7,19 @@ namespace DataStructures
     {
         static void Main(string[] args)
         {
-            DoublyLinkedList<int> list = new DoublyLinkedList<int>();
+            int[] data = new int[] { -1, 25, -58964, 8547, -119, 0, 78596 };
+            var sorted = Merge.Sort(data);
 
-            list.AddLast(3);
-            list.AddLast(5);
-            list.AddLast(7);
+            foreach (int x in sorted)
+                Console.Write(x + " ");
 
-            foreach(var item in list)
-            {
-                Console.WriteLine(item);
-            }
+            Console.ReadLine();
 
-            list.Remove(5);
+            int[] data1 = new int[] { -1, 25, -58964, 8547, -119, 0, 78596 };
+            Quick.Sort(data1, 0, data1.Length - 1);
+
+            foreach (int x in data1)
+                Console.Write(x + " ");
 
             Console.ReadLine();
         }
